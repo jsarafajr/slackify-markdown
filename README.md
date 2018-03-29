@@ -1,5 +1,8 @@
 # Slackify-Markdown
 
+[![Build Status](https://travis-ci.org/jsarafajr/slackify-markdown.svg?branch=master)](https://travis-ci.org/jsarafajr/slackify-markdown)
+[![codecov](https://codecov.io/gh/jsarafajr/slackify-markdown/branch/master/graph/badge.svg)](https://codecov.io/gh/jsarafajr/slackify-markdown)
+
 Slackify-Markdown is a Markdown to [Slack-specific-markdown](https://api.slack.com/docs/message-formatting#message_formatting) converter, based on [Unified](https://github.com/unifiedjs/unified) and [Remark](https://github.com/remarkjs/remark/).
 
 ## Install
