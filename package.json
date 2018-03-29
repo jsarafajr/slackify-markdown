@@ -1,7 +1,8 @@
 {
-  "name": "skackify-markdown",
+  "name": "slackify-markdown",
   "version": "1.0.0",
   "description": "Convert markdown into Slack-specific markdown",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -10,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jsarafajr/skackify-markdown.git"
+    "url": "git://github.com/jsarafajr/slackify-markdown.git"
   },
   "keywords": [
     "slack",
@@ -25,9 +26,9 @@
     "web": "https://github.com/jsarafajr"
   },
   "bugs": {
-    "url": "https://github.com/jsarafajr/skackify-markdown/issues"
+    "url": "https://github.com/jsarafajr/slackify-markdown/issues"
   },
-  "homepage": "https://github.com/jsarafajr/skackify-markdown#readme",
+  "homepage": "https://github.com/jsarafajr/slackify-markdown#readme",
   "dependencies": {
     "remark-parse": "^5.0.0",
     "remark-stringify": "^5.0.0",
