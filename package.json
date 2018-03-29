@@ -1,0 +1,50 @@
+{
+  "name": "skackify-markdown",
+  "version": "0.1.0",
+  "description": "Convert markdown into Slack-specific markdown",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jsarafajr/skackify-markdown.git"
+  },
+  "keywords": [
+    "slack",
+    "markdown",
+    "slackify",
+    "parser",
+    "remark",
+    "unified"
+  ],
+  "author": {
+    "name": "Yevhenii Baraniuk",
+    "web": "https://github.com/jsarafajr"
+  },
+  "bugs": {
+    "url": "https://github.com/jsarafajr/skackify-markdown/issues"
+  },
+  "homepage": "https://github.com/jsarafajr/skackify-markdown#readme",
+  "dependencies": {
+    "remark-parse": "^5.0.0",
+    "remark-stringify": "^5.0.0",
+    "unified": "^6.1.6",
+    "unist-util-visit": "^1.3.0"
+  },
+  "devDependencies": {
+    "codecov": "^2.3.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "jest": "^22.4.3"
+  },
+  "files": [
+    "README.md",
+    "src/*",
+    "index.js",
+    "LICENSE"
+  ]
+}
