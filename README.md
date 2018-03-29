@@ -18,9 +18,20 @@ const markdown = `
 * item 1
 * item 2
 * item 3
+
+[here is an example](https://example.com)
 `;
 
-const slackMarkdown = slackifyMarkdown(markdown);
+slackifyMarkdown(markdown);
+/*
+ *List of items*
+
+ • item 1
+ • item 2
+ • item 3
+
+ <https://example.com|here is an example>
+/*
 ```
 
 #### Emojis
