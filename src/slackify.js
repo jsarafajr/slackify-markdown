@@ -58,10 +58,6 @@ class SlackCompiler extends Compiler {
   }
 
   slackEscape(value, node, parent) {
-    if (parent.type === 'link') {
-      return encodeURI(value);
-    }
-
     return value
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
