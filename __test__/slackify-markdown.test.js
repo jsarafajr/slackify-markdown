@@ -110,6 +110,12 @@ test('Code block with language', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
+test('Code block with deprecated language declaration', () => {
+  const mrkdown = '```\n#!javascript\ncode block\n```';
+  const slack = '```\ncode block\n```\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('Emoji replace', () => {
   const options = {
     emojis: { ':foo_foo:': ':bar_bar:' },

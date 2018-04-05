@@ -33,6 +33,12 @@ const visitors = {
     }).join('\n');
   },
 
+  code(node) {
+    // delete language prefix for deprecated markdown formatters (old Bitbucket Editor)
+    const content = node.value.replace(/^#![a-z]+\n/, ''); // ```\n#!javascript\ncode block\n```
+    return wrap(content, '```', '\n');
+  },
+
   link(node) {
     const text = node.title || this.content(node);
     const url = this.encode(node.url || '', node);
@@ -45,11 +51,6 @@ const visitors = {
     const url = this.encode(node.url || '', node);
     if (!isURL(url)) return url;
     return `<${url}|${text}>`;
-  },
-
-  code(node) {
-    const fence = '```';
-    return wrap(node.value, fence, '\n');
   },
 };
 
