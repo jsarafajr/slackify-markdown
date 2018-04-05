@@ -1,5 +1,7 @@
 const slackifyMarkdown = require('../');
 
+const zws = String.fromCharCode(0x200B); // zero-width-space
+
 test('Simple text', () => {
   expect(slackifyMarkdown('hello world')).toBe('hello world\n');
 });
@@ -16,25 +18,29 @@ test('Headings', () => {
 
 test('Bold', () => {
   const mrkdown = '**bold text**';
-  const slack = '*bold text*\n';
+  const slack = `${zws}*bold text*${zws}\n`;
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Bold character in word', () => {
+  expect(slackifyMarkdown('he**l**lo')).toBe(`he${zws}*l*${zws}lo\n`);
 });
 
 test('Italic', () => {
   const mrkdown = '*italic text*';
-  const slack = '_italic text_\n';
+  const slack = `${zws}_italic text_${zws}\n`;
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Bold+Italic', () => {
   const mrkdown = '***bold+italic***';
-  const slack = '*_bold+italic_*\n';
+  const slack = `${zws}*${zws}_bold+italic_${zws}*${zws}\n`;
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Strike', () => {
   const mrkdown = '~~strike text~~';
-  const slack = '~strike text~\n';
+  const slack = `${zws}~strike text~${zws}\n`;
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 

@@ -8,4 +8,12 @@ module.exports = {
       return false;
     }
   },
+
+  wrap(string, ...wrappers) {
+    return [
+      ...wrappers,
+      string,
+      ...wrappers.reverse(),
+    ].join('');
+  },
 };

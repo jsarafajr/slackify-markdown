@@ -1,22 +1,25 @@
 const { Compiler } = require('remark-stringify');
-const { isURL } = require('./utils');
+const { isURL, wrap } = require('./utils');
+
+// fixes slack in-word formatting (e.g. hel*l*o)
+const zeroWidthSpace = String.fromCharCode(0x200B);
 
 const visitors = {
   heading(node) {
     // make headers to be just *strong*
-    return `*${this.content(node)}*`;
+    return wrap(this.content(node), '*');
   },
 
   strong(node) {
-    return `*${this.content(node)}*`;
+    return wrap(this.content(node), zeroWidthSpace, '*');
   },
 
   delete(node) {
-    return `~${this.content(node)}~`;
+    return wrap(this.content(node), zeroWidthSpace, '~');
   },
 
   emphasis(node) {
-    return `_${this.content(node)}_`;
+    return wrap(this.content(node), zeroWidthSpace, '_');
   },
 
   list(node) {
@@ -46,7 +49,7 @@ const visitors = {
 
   code(node) {
     const fence = '```';
-    return `${fence}\n${node.value}\n${fence}`;
+    return wrap(node.value, fence, '\n');
   },
 };
 
