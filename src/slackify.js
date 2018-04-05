@@ -41,13 +41,15 @@ const visitors = {
 
   link(node) {
     const text = node.title || this.content(node);
-    const url = this.encode(node.url || '', node);
-    if (!isURL(url)) return url;
-    return `<${url}|${text}>`;
+    return this.visitors.url.call(this, node, text);
   },
 
   image(node) {
     const text = node.title || node.alt;
+    return this.visitors.url.call(this, node, text);
+  },
+
+  url(node, text) {
     const url = this.encode(node.url || '', node);
     if (!isURL(url)) return url;
     return `<${url}|${text}>`;
