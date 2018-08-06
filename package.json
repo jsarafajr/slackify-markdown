@@ -29,6 +29,9 @@
     "url": "https://github.com/jsarafajr/slackify-markdown/issues"
   },
   "homepage": "https://github.com/jsarafajr/slackify-markdown#readme",
+  "jest": {
+    "testURL": "http://localhost/"
+  },
   "dependencies": {
     "remark-parse": "^5.0.0",
     "remark-stringify": "^5.0.0",
