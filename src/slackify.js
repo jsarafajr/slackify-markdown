@@ -1,5 +1,6 @@
 const { Compiler } = require('remark-stringify');
-const { isURL, wrap } = require('./utils');
+const isURL = require('is-url');
+const { wrap } = require('./utils');
 
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200B);
