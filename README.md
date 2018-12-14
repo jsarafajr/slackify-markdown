@@ -45,7 +45,7 @@ const options = {
   emojis: { ':hello:': ':bye:' }
 };
 
-slackifyMarkdown(':hello: my fried!', options); // -> ':bye: my friend!'
+slackifyMarkdown(':hello: my friend!', options); // -> ':bye: my friend!'
 ```
 
 ### Copyright and License
