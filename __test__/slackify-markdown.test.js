@@ -88,7 +88,7 @@ test('Image with alt-title', () => {
 
 test('Image with no alt-title', () => {
   const mrkdown = '![](https://bitbucket.org/repo/123/images/logo.png)';
-  const slack = '<https://bitbucket.org/repo/123/images/logo.png|>\n';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 

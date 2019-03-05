@@ -53,7 +53,7 @@ const visitors = {
   url(node, text) {
     const url = this.encode(node.url || '', node);
     if (!isURL(url)) return url;
-    return `<${url}|${text || ''}>`;
+    return text ? `<${url}|${text}>` : `<${url}>`;
   },
 };
 
