@@ -58,13 +58,13 @@ test('Ordered list', () => {
 
 test('Link', () => {
   const mrkdown = '[http://atlassian.com](http://atlassian.com)';
-  const slack = '<http://atlassian.com|http://atlassian.com>\n';
+  const slack = 'http://atlassian.com\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Link with title', () => {
   const mrkdown = '[test](http://atlassian.com)';
-  const slack = '<http://atlassian.com|test>\n';
+  const slack = 'test(http://atlassian.com)\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
@@ -76,19 +76,19 @@ test('Invalid link', () => {
 
 test('Image', () => {
   const mrkdown = '![logo.png](https://bitbucket.org/repo/123/images/logo.png)';
-  const slack = '<https://bitbucket.org/repo/123/images/logo.png|logo.png>\n';
+  const slack = 'logo.png(https://bitbucket.org/repo/123/images/logo.png)\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image with alt-title', () => {
   const mrkdown = "![logo.png](https://bitbucket.org/repo/123/images/logo.png 'test')";
-  const slack = '<https://bitbucket.org/repo/123/images/logo.png|test>\n';
+  const slack = 'test(https://bitbucket.org/repo/123/images/logo.png)\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image with no alt-title', () => {
   const mrkdown = '![](https://bitbucket.org/repo/123/images/logo.png)';
-  const slack = '<https://bitbucket.org/repo/123/images/logo.png>\n';
+  const slack = 'https://bitbucket.org/repo/123/images/logo.png\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
