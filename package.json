@@ -4,6 +4,7 @@
   "description": "Convert markdown into Slack-specific markdown",
   "license": "MIT",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
