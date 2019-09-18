@@ -1,3 +1,4 @@
 declare module "slackify-markdown" {
-  export default (markdown: string) => string;
+  function slackify(markdown: string): string;
+  export default slackify;
 }
