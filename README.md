@@ -37,19 +37,8 @@ slackifyMarkdown(markdown);
 /*
 ```
 
-#### Emojis
-Emojis map can be passed through options to replace some specific emoji codes
-
-```js
-const options = {
-  emojis: { ':hello:': ':bye:' }
-};
-
-slackifyMarkdown(':hello: my friend!', options); // -> ':bye: my friend!'
-```
-
 ### Copyright and License
 
-Copyright Yevhenii Baraniuk, 2018
+Copyright Yevhenii Baraniuk, 2019
 
 [MIT Licence](LICENSE)
