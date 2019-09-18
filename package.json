@@ -50,6 +50,7 @@
     "README.md",
     "src/*",
     "index.js",
+    "index.d.ts",
     "LICENSE"
   ]
 }
