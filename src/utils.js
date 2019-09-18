@@ -1,3 +1,5 @@
+const { URL } = require('url');
+
 module.exports = {
   wrap(string, ...wrappers) {
     return [
@@ -5,5 +7,13 @@ module.exports = {
       string,
       ...wrappers.reverse(),
     ].join('');
+  },
+
+  isURL(string) {
+    try {
+      return Boolean(new URL(string));
+    } catch (error) {
+      return false;
+    }
   },
 };
