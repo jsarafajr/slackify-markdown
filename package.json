@@ -1,6 +1,6 @@
 {
   "name": "slackify-markdown",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Convert markdown into Slack-specific markdown",
   "license": "MIT",
   "main": "index.js",
