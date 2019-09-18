@@ -121,12 +121,3 @@ test('Code block with deprecated language declaration', () => {
   const slack = '```\ncode block\n```\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
-
-test('Emoji replace', () => {
-  const options = {
-    emojis: { ':foo_foo:': ':bar_bar:' },
-  };
-  const mrkdown = 'hello :foo_foo: :smile:';
-  const slack = 'hello :bar_bar: :smile:\n';
-  expect(slackifyMarkdown(mrkdown, options)).toBe(slack);
-});
