@@ -7,7 +7,10 @@ const defaultOptions = {
 };
 
 module.exports = (markdown, options) => {
-  options = Object.assign({}, defaultOptions, options);
+  options = {
+    ...defaultOptions,
+    ...options,
+  };
 
   return unified()
     .use(parse, options)
