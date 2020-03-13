@@ -41,7 +41,7 @@
   "devDependencies": {
     "codecov": "^3.0.4",
     "eslint": "^6.4.0",
-    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "^2.13.0",
     "jest": "^25.0.0"
   },
