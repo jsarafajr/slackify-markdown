@@ -1,4 +1,4 @@
-const slackifyMarkdown = require('../');
+const slackifyMarkdown = require('..');
 
 const zws = String.fromCharCode(0x200B); // zero-width-space
 
