@@ -37,6 +37,14 @@ slackifyMarkdown(markdown);
 /*
 ```
 
+### NodeJS version < 10
+
+Use slackify-markdown v2 if you use nodejs version 9 and lower.
+
+```bash
+npm install slackify-markdown@2
+```
+
 ### Copyright and License
 
 Copyright Yevhenii Baraniuk, 2019
