@@ -54,6 +54,10 @@ const visitors = {
     if (!isURL(url)) return url;
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
+
+  text({ value: text }) {
+    return text.replace(/\n/g, ' ');
+  },
 };
 
 class SlackCompiler extends Compiler {
