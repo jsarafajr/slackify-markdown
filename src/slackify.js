@@ -1,80 +1,114 @@
-const { Compiler } = require('remark-stringify');
+const defaultHandlers = require('mdast-util-to-markdown/lib/handle');
+const phrasing = require('mdast-util-to-markdown/lib/util/container-phrasing');
+
 const { wrap, isURL } = require('./utils');
 
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200B);
 
-const visitors = {
-  heading(node) {
+/**
+ * @type import('mdast-util-to-markdown').Handlers
+ */
+const handlers = {
+  heading: (node, _parent, context) => {
     // make headers to be just *strong*
-    return wrap(this.content(node), '*');
+    const marker = '*';
+
+    const exit = context.enter('heading');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, marker);
   },
 
-  strong(node) {
-    return wrap(this.content(node), zeroWidthSpace, '*');
+  strong: (node, _parent, context) => {
+    const marker = '*';
+
+    const exit = context.enter('strong');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, zeroWidthSpace, marker);
   },
 
-  delete(node) {
-    return wrap(this.content(node), zeroWidthSpace, '~');
+  delete(node, _parent, context) {
+    const marker = '~';
+
+    const exit = context.enter('delete');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, zeroWidthSpace, marker);
   },
 
-  emphasis(node) {
-    return wrap(this.content(node), zeroWidthSpace, '_');
+  emphasis: (node, _parent, context) => {
+    const marker = '_';
+
+    const exit = context.enter('emphasis');
+    const value = phrasing(node, context, { before: marker, after: marker });
+    exit();
+
+    return wrap(value, zeroWidthSpace, marker);
   },
 
-  list(node) {
-    const listItem = this.visitors.listItem.bind(this);
+  listItem: (...args) => defaultHandlers
+    .listItem(...args)
+    .replace(/^\*/, '•'),
 
-    return node.children.map((child, index) => {
-      const bullet = node.ordered
-        ? `${node.start + index}.`
-        : '•';
-      return listItem(child, node, index, bullet);
-    }).join('\n');
-  },
-
-  code(node) {
+  code(node, _parent, context) {
+    const exit = context.enter('code');
     // delete language prefix for deprecated markdown formatters (old Bitbucket Editor)
     const content = node.value.replace(/^#![a-z]+\n/, ''); // ```\n#!javascript\ncode block\n```
+    exit();
+
     return wrap(content, '```', '\n');
   },
 
-  link(node) {
-    const text = node.title || this.content(node);
-    return this.visitors.url.call(this, node, text);
-  },
+  link: (node, _parent, context) => {
+    const exit = context.enter('link');
+    const text = node.title
+      || phrasing(node, context, { before: '|', after: '>' });
+    const url = encodeURI(node.url);
+    exit();
 
-  image(node) {
-    const text = node.title || node.alt;
-    return this.visitors.url.call(this, node, text);
-  },
-
-  url(node, text) {
-    const url = this.encode(node.url || '', node);
     if (!isURL(url)) return url;
+
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
-};
 
-class SlackCompiler extends Compiler {
-  constructor(...args) {
-    super(...args);
-    this.visitors = Object.assign(this.visitors, visitors);
-    this.escape = this.slackEscape.bind(this);
-  }
+  image: (node, _parent, context) => {
+    const exit = context.enter('image');
+    const text = node.title || node.alt;
+    const url = encodeURI(node.url);
+    exit();
 
-  slackEscape(value, node, parent) {
-    return value
+    if (!isURL(url)) return url;
+
+    return text ? `<${url}|${text}>` : `<${url}>`;
+  },
+
+  text: (node, _parent, context) => {
+    const exit = context.enter('text');
+    // https://api.slack.com/reference/surfaces/formatting#escaping
+    const text = node.value
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
-  }
+    exit();
 
-  content(node) {
-    return this.all(node).join('');
-  }
-}
-
-module.exports = function slackify() {
-  this.Compiler = SlackCompiler;
+    // Do we need more escaping like the default handler uses?
+    // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/handle/text.js
+    // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/unsafe.js
+    return text;
+  },
 };
+
+/**
+ * @type import('remark-stringify').RemarkStringifyOptions
+ */
+const options = {
+  bullet: '*',
+  handlers,
+};
+
+module.exports = options;
