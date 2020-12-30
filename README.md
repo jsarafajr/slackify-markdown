@@ -1,6 +1,6 @@
 # Slackify-Markdown
 
-[![Build Status](https://travis-ci.org/jsarafajr/slackify-markdown.svg?branch=master)](https://travis-ci.org/jsarafajr/slackify-markdown)
+![Build Status](https://github.com/jsarafajr/slackify-markdown/workflows/Build%20CI/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/jsarafajr/slackify-markdown/branch/master/graph/badge.svg)](https://codecov.io/gh/jsarafajr/slackify-markdown) [![Known Vulnerabilities](https://snyk.io/test/github/jsarafajr/slackify-markdown/badge.svg)](https://snyk.io/test/github/jsarafajr/slackify-markdown)
 
 
