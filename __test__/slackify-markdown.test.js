@@ -7,7 +7,7 @@ test('Simple text', () => {
 });
 
 test('Escaped text', () => {
-  expect(slackifyMarkdown('*h&ello>world<')).toBe('\\*h&amp;ello&gt;world&lt;\n');
+  expect(slackifyMarkdown('*h&ello>world<')).toBe('*h&amp;ello&gt;world&lt;\n');
 });
 
 test('Headings', () => {

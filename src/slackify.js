@@ -87,12 +87,20 @@ const handlers = {
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
 
-  text: (...args) => defaultHandlers
-    .text(...args)
+  text: (node, _parent, context) => {
+    const exit = context.enter('text');
     // https://api.slack.com/reference/surfaces/formatting#escaping
-    .replace(/\\&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;'),
+    const text = node.value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    exit();
+
+    // Do we need more escaping like the default handler uses?
+    // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/handle/text.js
+    // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/unsafe.js
+    return text;
+  },
 };
 
 /**
