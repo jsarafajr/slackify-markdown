@@ -74,7 +74,7 @@ test('Link with angle bracket syntax', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
-test('Link with no child', () => {
+test('Link with no title nor alt', () => {
   const mrkdown = '[](http://atlassian.com)';
   const slack = '<http://atlassian.com>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
