@@ -66,23 +66,23 @@ const handlers = {
 
   link: (node, _parent, context) => {
     const exit = context.enter('link');
-    const text = node.title
-      || phrasing(node, context, { before: '|', after: '>' });
+    const text = phrasing(node, context, { before: '|', after: '>' })
+      || node.title;
     const url = encodeURI(node.url);
     exit();
 
-    if (!isURL(url)) return url;
+    if (!isURL(url)) return text || url;
 
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
 
   image: (node, _parent, context) => {
     const exit = context.enter('image');
-    const text = node.title || node.alt;
+    const text = node.alt || node.title;
     const url = encodeURI(node.url);
     exit();
 
-    if (!isURL(url)) return url;
+    if (!isURL(url)) return text || url;
 
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
