@@ -10,6 +10,12 @@ test('Escaped text', () => {
   expect(slackifyMarkdown('*h&ello>world<')).toBe('*h&amp;ello&gt;world&lt;\n');
 });
 
+test('Definitions', () => {
+  const mrkdown = 'hello\n\n[1]: http://atlassian.com\n\nworld\n\n[2]: http://atlassian.com';
+  const slack = 'hello\n\nworld\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('Headings', () => {
   const mrkdown = '# heading 1\n## heading 2\n### heading 3';
   const slack = '*heading 1*\n\n*heading 2*\n\n*heading 3*\n';
@@ -92,6 +98,42 @@ test('Link with invalid URL', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
+test('Link in reference style with alt', () => {
+  const mrkdown = '[Atlassian]\n\n[atlassian]: http://atlassian.com';
+  const slack = '<http://atlassian.com|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Link in reference style with custom label', () => {
+  const mrkdown = '[][test]\n\n[test]: http://atlassian.com';
+  const slack = '<http://atlassian.com>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Link in reference style with alt and custom label', () => {
+  const mrkdown = '[Atlassian][test]\n\n[test]: http://atlassian.com';
+  const slack = '<http://atlassian.com|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Link in reference style with title', () => {
+  const mrkdown = '[][test]\n\n[test]: http://atlassian.com "Title"';
+  const slack = '<http://atlassian.com|Title>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Link in reference style with alt and title', () => {
+  const mrkdown = '[Atlassian]\n\n[atlassian]: http://atlassian.com "Title"';
+  const slack = '<http://atlassian.com|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Link in reference style with invalid definition', () => {
+  const mrkdown = '[Atlassian][test]\n\n[test]: /atlassian';
+  const slack = 'Atlassian\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('Image with title', () => {
   const mrkdown = '![](https://bitbucket.org/repo/123/images/logo.png "test")';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|test>\n';
@@ -122,6 +164,42 @@ test('Image with invalid URL', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
+test('Image in reference style with alt', () => {
+  const mrkdown = '![Atlassian]\n\n[atlassian]: https://bitbucket.org/repo/123/images/logo.png';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Image in reference style with custom label', () => {
+  const mrkdown = '![][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Image in reference style with alt and custom label', () => {
+  const mrkdown = '![Atlassian][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Image in reference style with title', () => {
+  const mrkdown = '![][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png "Title"';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png|Title>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Image in reference style with alt and title', () => {
+  const mrkdown = '![Atlassian]\n\n[atlassian]: https://bitbucket.org/repo/123/images/logo.png "Title"';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Image in reference style with invalid definition', () => {
+  const mrkdown = '![Atlassian][test]\n\n[test]: /relative-path-logo.png';
+  const slack = 'Atlassian\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('Inline code', () => {
   const mrkdown = 'hello `world`';
   const slack = 'hello `world`\n';
@@ -131,6 +209,12 @@ test('Inline code', () => {
 test('Code block', () => {
   const mrkdown = '```\ncode block\n```';
   const slack = '```\ncode block\n```\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Code block with newlines', () => {
+  const mrkdown = '```\ncode\n\n\nblock\n```';
+  const slack = '```\ncode\n\n\nblock\n```\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 

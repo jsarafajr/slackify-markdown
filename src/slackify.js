@@ -7,9 +7,15 @@ const { wrap, isURL } = require('./utils');
 const zeroWidthSpace = String.fromCharCode(0x200B);
 
 /**
- * @type import('mdast-util-to-markdown').Handlers
+ * Creates custom `mdast-util-to-markdown` handlers that tailor the output for
+ * Slack Markdown.
+ *
+ * @param {Readonly<Record<string, { title: null | string, url: string }>>} definitions
+ * Record of `Definition`s in the Markdown document, keyed by identifier.
+ *
+ * @returns {import('mdast-util-to-markdown').Handlers}
  */
-const handlers = {
+const createHandlers = definitions => ({
   heading: (node, _parent, context) => {
     // make headers to be just *strong*
     const marker = '*';
@@ -76,6 +82,18 @@ const handlers = {
     return text ? `<${url}|${text}>` : `<${url}>`;
   },
 
+  linkReference: (node, _parent, context) => {
+    const exit = context.enter('linkReference');
+    const definition = definitions[node.identifier];
+    const text = phrasing(node, context, { before: '|', after: '>' })
+      || (definition ? definition.title : null);
+    exit();
+
+    if (!definition || !isURL(definition.url)) return text;
+
+    return text ? `<${definition.url}|${text}>` : `<${definition.url}>`;
+  },
+
   image: (node, _parent, context) => {
     const exit = context.enter('image');
     const text = node.alt || node.title;
@@ -85,6 +103,18 @@ const handlers = {
     if (!isURL(url)) return text || url;
 
     return text ? `<${url}|${text}>` : `<${url}>`;
+  },
+
+  imageReference: (node, _parent, context) => {
+    const exit = context.enter('imageReference');
+    const definition = definitions[node.identifier];
+    const text = node.alt
+      || (definition ? definition.title : null);
+    exit();
+
+    if (!definition || !isURL(definition.url)) return text;
+
+    return text ? `<${definition.url}|${text}>` : `<${definition.url}>`;
   },
 
   text: (node, _parent, context) => {
@@ -101,14 +131,20 @@ const handlers = {
     // https://github.com/syntax-tree/mdast-util-to-markdown/blob/main/lib/unsafe.js
     return text;
   },
-};
+});
 
 /**
- * @type import('remark-stringify').RemarkStringifyOptions
+ * Creates options to be passed into a `remark-stringify` processor that tailor
+ * the output for Slack Markdown.
+ *
+ * @param {Readonly<Record<string, { title: null | string, url: string }>>} definitions
+ * Record of `Definition`s in the Markdown document, keyed by identifier.
+ *
+ * @returns {import('remark-stringify').RemarkStringifyOptions}
  */
-const options = {
+const createOptions = definitions => ({
   bullet: '*',
-  handlers,
-};
+  handlers: createHandlers(definitions),
+});
 
-module.exports = options;
+module.exports = createOptions;
