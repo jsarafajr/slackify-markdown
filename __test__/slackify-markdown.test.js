@@ -57,14 +57,20 @@ test('Ordered list', () => {
 });
 
 test('Link with title', () => {
+  const mrkdown = '[](http://atlassian.com "Atlassian")';
+  const slack = '<http://atlassian.com|Atlassian>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Link with alt', () => {
   const mrkdown = '[test](http://atlassian.com)';
   const slack = '<http://atlassian.com|test>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
-test('Link with alt', () => {
+test('Link with alt and title', () => {
   const mrkdown = '[test](http://atlassian.com "Atlassian")';
-  const slack = '<http://atlassian.com|Atlassian>\n';
+  const slack = '<http://atlassian.com|test>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
@@ -74,7 +80,7 @@ test('Link with angle bracket syntax', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
-test('Link with no title nor alt', () => {
+test('Link with no alt nor title', () => {
   const mrkdown = '[](http://atlassian.com)';
   const slack = '<http://atlassian.com>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
@@ -82,19 +88,25 @@ test('Link with no title nor alt', () => {
 
 test('Link with invalid URL', () => {
   const mrkdown = '[test](/atlassian)';
-  const slack = '/atlassian\n';
+  const slack = 'test\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image with title', () => {
+  const mrkdown = '![](https://bitbucket.org/repo/123/images/logo.png "test")';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png|test>\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Image with alt', () => {
   const mrkdown = '![logo.png](https://bitbucket.org/repo/123/images/logo.png)';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|logo.png>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
-test('Image with alt', () => {
+test('Image with alt and title', () => {
   const mrkdown = "![logo.png](https://bitbucket.org/repo/123/images/logo.png 'test')";
-  const slack = '<https://bitbucket.org/repo/123/images/logo.png|test>\n';
+  const slack = '<https://bitbucket.org/repo/123/images/logo.png|logo.png>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
@@ -106,7 +118,7 @@ test('Image with no alt nor title', () => {
 
 test('Image with invalid URL', () => {
   const mrkdown = "![logo.png](/relative-path-logo.png 'test')";
-  const slack = '/relative-path-logo.png\n';
+  const slack = 'logo.png\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
