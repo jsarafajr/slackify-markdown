@@ -229,3 +229,10 @@ test('Code block with deprecated language declaration', () => {
   const slack = '```\ncode block\n```\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
+
+test('User mention', () => {
+  const mrkdown = '<@UPXGB22A2>';
+  const slack = '<@UPXGB22A2>\n';
+
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
