@@ -1,5 +1,3 @@
-const { URL } = require('url');
-
 module.exports = {
   wrap(string, ...wrappers) {
     return [
