@@ -128,6 +128,12 @@ test('Link in reference style with alt and title', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
+test('Link is already encoded', () => {
+  const mrkdown = '[Atlassian](https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian';
+  const slack = '<https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com|Atlassian>: /atlassian\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('Link in reference style with invalid definition', () => {
   const mrkdown = '[Atlassian][test]\n\n[test]: /atlassian';
   const slack = 'Atlassian\n';
