@@ -16,6 +16,6 @@ module.exports = {
   },
 
   isPotentiallyEncoded(uri) {
-    return uri !== decodeURIComponent(uri || "");
+    return uri !== decodeURIComponent(uri || '');
   },
 };

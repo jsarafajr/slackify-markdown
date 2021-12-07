@@ -74,7 +74,7 @@ const createHandlers = definitions => ({
     const exit = context.enter('link');
     const text = phrasing(node, context, { before: '|', after: '>' })
       || node.title;
-    const url = isPotentiallyEncoded(node.url) ? node.url :  encodeURI(node.url);
+    const url = isPotentiallyEncoded(node.url) ? node.url : encodeURI(node.url);
     exit();
 
     if (!isURL(url)) return text || url;
