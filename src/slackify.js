@@ -1,7 +1,7 @@
 const defaultHandlers = require('mdast-util-to-markdown/lib/handle');
 const phrasing = require('mdast-util-to-markdown/lib/util/container-phrasing');
 
-const { wrap, isURL } = require('./utils');
+const { wrap, isURL, isPotentiallyEncoded } = require('./utils');
 
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200B);
@@ -74,7 +74,7 @@ const createHandlers = definitions => ({
     const exit = context.enter('link');
     const text = phrasing(node, context, { before: '|', after: '>' })
       || node.title;
-    const url = encodeURI(node.url);
+    const url = isPotentiallyEncoded(node.url) ? node.url : encodeURI(node.url);
     exit();
 
     if (!isURL(url)) return text || url;

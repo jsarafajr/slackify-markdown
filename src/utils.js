@@ -14,4 +14,8 @@ module.exports = {
       return false;
     }
   },
+
+  isPotentiallyEncoded(uri) {
+    return uri !== decodeURIComponent(uri || '');
+  },
 };
