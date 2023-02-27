@@ -20,5 +20,6 @@ module.exports = (markdown, options) => {
     .use(removeDefinitions)
     .use(stringify, slackifyOptions)
     .processSync(markdown)
-    .toString();
+    .toString()
+    .replaceAll(/<!---->\n/g, ''); // Remove extra html comments
 };
