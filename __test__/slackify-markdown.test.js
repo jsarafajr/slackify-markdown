@@ -242,3 +242,15 @@ test('User mention', () => {
 
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
+
+test('Code block after bullet points', () => {
+  const mrkdown = '- This is bullet\n```\ncode block\n```';
+  const slack = '•   This is bullet\n\n\n```\ncode block\n```\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Removes extra html comments', () => {
+  const mrkdown = '- This is bullet\n<!---->';
+  const slack = '•   This is bullet\n\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
