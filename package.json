@@ -1,6 +1,6 @@
 {
-  "name": "slackify-markdown",
-  "version": "4.3.1",
+  "name": "slackify-markdown-4.3.2",
+  "version": "4.3.2",
   "description": "Convert markdown into Slack-specific markdown",
   "license": "MIT",
   "main": "index.js",
@@ -10,10 +10,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jsarafajr/slackify-markdown.git"
-  },
+  "repository": "https://github.com/hassan-pullflow/slackify-markdown.git",
   "keywords": [
     "slack",
     "markdown",
@@ -22,10 +19,7 @@
     "remark",
     "unified"
   ],
-  "author": {
-    "name": "Yevhenii Baraniuk",
-    "web": "https://github.com/jsarafajr"
-  },
+  "author": "Yevhenii Baraniuk (https://github.com/jsarafajr)",
   "bugs": {
     "url": "https://github.com/jsarafajr/slackify-markdown/issues"
   },
