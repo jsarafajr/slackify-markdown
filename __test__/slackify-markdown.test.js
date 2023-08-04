@@ -1,3 +1,5 @@
+const fsPromises = require('fs/promises');
+
 const slackifyMarkdown = require('..');
 
 const zws = String.fromCharCode(0x200B); // zero-width-space
@@ -241,4 +243,10 @@ test('User mention', () => {
   const slack = '<@UPXGB22A2>\n';
 
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('code does not use negative lookarounds', async () => {
+  const sourceCode = await fsPromises.readFile('./src/slackify.js', 'utf8');
+  const usesNegativeLookaround = /\/\(\?<?!/
+  expect(sourceCode).not.toMatch(usesNegativeLookaround)
 });
