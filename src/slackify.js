@@ -6,13 +6,17 @@ const { wrap, isURL, isPotentiallyEncoded } = require('./utils');
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200B);
 
-const escapeSpecials = (text) => {
+const escapeSpecials = text => {
   const escaped = text
-    .replace("&", "&amp;")
+    .replace('&', '&amp;')
     .replace(/<([^@]|$)/g, (_, m) => `&lt;${m}`)
-    .replace(/^(.*)>/g, (_, m) =>
-      m.match(/<@[A-Z0-9]+$/) ? `${m}>` : `${m ?? ""}&gt;`
-    );
+    .replace(/^(.*)>/g, (_, m) => {
+      const isEndOfUserMention = Boolean(m.match(/<@[A-Z0-9]+$/));
+      if (isEndOfUserMention) {
+        return `${m}>`;
+      }
+      return `${m}&gt;`;
+    });
   return escaped;
 };
 

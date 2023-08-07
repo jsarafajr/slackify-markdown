@@ -247,6 +247,6 @@ test('User mention', () => {
 
 test('code does not use negative lookarounds', async () => {
   const sourceCode = await fsPromises.readFile('./src/slackify.js', 'utf8');
-  const usesNegativeLookaround = /\/\(\?<?!/
-  expect(sourceCode).not.toMatch(usesNegativeLookaround)
+  const usesNegativeLookaround = /\/\(\?<?!/;
+  expect(sourceCode).not.toMatch(usesNegativeLookaround);
 });
