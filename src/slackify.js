@@ -6,6 +6,20 @@ const { wrap, isURL, isPotentiallyEncoded } = require('./utils');
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200B);
 
+const escapeSpecials = text => {
+  const escaped = text
+    .replace('&', '&amp;')
+    .replace(/<([^@]|$)/g, (_, m) => `&lt;${m}`)
+    .replace(/^(.*)>/g, (_, m) => {
+      const isEndOfUserMention = Boolean(m.match(/<@[A-Z0-9]+$/));
+      if (isEndOfUserMention) {
+        return `${m}>`;
+      }
+      return `${m}&gt;`;
+    });
+  return escaped;
+};
+
 /**
  * Creates custom `mdast-util-to-markdown` handlers that tailor the output for
  * Slack Markdown.
@@ -120,10 +134,7 @@ const createHandlers = definitions => ({
   text: (node, _parent, context) => {
     const exit = context.enter('text');
     // https://api.slack.com/reference/surfaces/formatting#escaping
-    const text = node.value
-      .replace(/&/g, '&amp;')
-      .replace(/<(?!@)/g, '&lt;')
-      .replace(/(?<!@[A-Z0-9]+)>/g, '&gt;');
+    const text = escapeSpecials(node.value);
     exit();
 
     // Do we need more escaping like the default handler uses?
