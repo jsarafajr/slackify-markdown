@@ -10,6 +10,8 @@ const escapeSpecials = text => {
   const escaped = text
     .replace('&', '&amp;')
     .replace(/<([^@]|$)/g, (_, m) => `&lt;${m}`)
+    .replace(/\(/g, '&#40;')
+    .replace(/\)/g, '&#41;')
     .replace(/^(.*)>/g, (_, m) => {
       const isEndOfUserMention = Boolean(m.match(/<@[A-Z0-9]+$/));
       if (isEndOfUserMention) {
