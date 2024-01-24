@@ -146,6 +146,66 @@ test('Image with title', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
+test('HTML table text', () => {
+  const mrkdown = `
+<table>
+  <tr>
+    <td>row 1 cell 1</td>
+    <td>row 1 cell 2</td>
+  </tr>
+  <tr>
+    <td>row 2 cell 1</td>
+    <td>row 2 cell 2</td>
+  </tr>
+</table>
+`;
+  const slack = `
+row 1 cell 1  row 1 cell 2
+row 2 cell 1  row 2 cell 2
+`;
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('HTML comment', () => {
+  const mrkdown = `
+Starting text
+<!-- Inline HTML comment text. -->
+Ending text
+`;
+  const slack = `Starting text
+
+
+
+Ending text
+`;
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('HTML table with comments', () => {
+  const mrkdown = `
+<!-- Inline HTML comment before. -->
+<table><tr><td>row 1 cell 1</td><td>row 1 cell 2</td></tr><tr><td>row 2 cell 1</td><td>row 2 cell 2
+</td></tr></table>
+<!-- Inline HTML comment after. -->
+`;
+  const slack = `
+
+
+row 1 cell 1  row 1 cell 2
+row 2 cell 1  row 2 cell 2
+`;
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('HTML with line breaks', () => {
+  const mrkdown = `
+Here is my first line<br><br/><br>
+Here is my second line
+`;
+  const slack = 'Here is my first line \n\nHere is my second line\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('Image with alt', () => {
   const mrkdown = '![logo.png](https://bitbucket.org/repo/123/images/logo.png)';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|logo.png>\n';
