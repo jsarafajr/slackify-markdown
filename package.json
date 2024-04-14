@@ -34,7 +34,7 @@
     "testURL": "http://localhost/"
   },
   "dependencies": {
-    "mdast-util-to-markdown": "^0.6.2",
+    "mdast-util-to-markdown": "^1.2.6",
     "remark-gfm": "^1.0.0",
     "remark-parse": "^9.0.0",
     "remark-stringify": "^9.0.1",
