@@ -31,7 +31,11 @@
   },
   "homepage": "https://github.com/jsarafajr/slackify-markdown#readme",
   "jest": {
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ]
   },
   "dependencies": {
     "mdast-util-to-markdown": "^0.6.2",
@@ -43,7 +47,6 @@
     "unist-util-visit": "^2.0.3"
   },
   "devDependencies": {
-    "codecov": "^3.7.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",

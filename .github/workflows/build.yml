@@ -24,4 +24,7 @@ jobs:
     - run: npm install
     - run: npm run lint
     - run: npm run test:coverage
-    - run: ./node_modules/.bin/codecov
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
