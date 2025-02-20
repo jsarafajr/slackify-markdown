@@ -37,14 +37,3 @@ slackifyMarkdown(markdown);
  <https://example.com|here is an example>
 /*
 ```
-
-### NodeJS version < 10
-
-Use slackify-markdown v2 if you use nodejs version 9 and lower.
-
-```bash
-npm install slackify-markdown@2
-```
-
-
-[MIT Licence](LICENSE)
