@@ -242,3 +242,10 @@ test('User mention', () => {
 
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
+
+test('Channel mention', () => {
+  const mrkdown = '<#C04A9JK5R3Z>';
+  const slack = '<#C04A9JK5R3Z>\n';
+
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});

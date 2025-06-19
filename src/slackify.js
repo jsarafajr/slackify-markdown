@@ -9,10 +9,10 @@ const zeroWidthSpace = String.fromCharCode(0x200B);
 const escapeSpecials = text => {
   const escaped = text
     .replace(/&/g, '&amp;')
-    .replace(/<([^@]|$)/g, (_, m) => `&lt;${m}`)
+    .replace(/<([^@#]|$)/g, (_, m) => `&lt;${m}`)
     .replace(/^(.*)>/g, (_, m) => {
-      const isEndOfUserMention = Boolean(m.match(/<@[A-Z0-9]+$/));
-      if (isEndOfUserMention) {
+      const isEndOfMention = Boolean(m.match(/<[@#][A-Z0-9]+$/));
+      if (isEndOfMention) {
         return `${m}>`;
       }
       return `${m}&gt;`;
