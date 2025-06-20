@@ -20,6 +20,46 @@ const escapeSpecials = text => {
   return escaped;
 };
 
+const processHtml = (currentTag, currentValue) => {
+  if (!currentTag) {
+    return '';
+  }
+
+  // Format closed HTML.
+  let text = currentValue.replace(/<([^>]+)>(.*?)(<\/\1>)(\s*)/gms, (match, tag, value, endTag, endWhitespace) => {
+    // Skip comments, but handle tags that we can.
+    let result = '';
+    switch (tag) {
+      case 'table':
+        result = processHtml(tag, value.trim());
+        result = `\n${result}`;
+        break;
+
+      case 'tr':
+        result = processHtml(tag, value.trim());
+        result = `${result.trim()}\n`;
+        break;
+
+      case 'td':
+        result = `${value.trim()}  `;
+        break;
+
+      default:
+        result = `${value}${endWhitespace}`;
+        break;
+    }
+
+    return result;
+  });
+
+  text = text.replace(/<!--.*?-->/gms, '');
+
+  // Format unclosed and self-closing.
+  text = text.replace(/<(.+)\/?>/, (match, tag) => (tag === 'br' ? '\n' : ''));
+
+  return text;
+};
+
 /**
  * Creates custom `mdast-util-to-markdown` handlers that tailor the output for
  * Slack Markdown.
@@ -129,6 +169,16 @@ const createHandlers = definitions => ({
     if (!definition || !isURL(definition.url)) return text;
 
     return text ? `<${definition.url}|${text}>` : `<${definition.url}>`;
+  },
+
+  html: (node, _parent, context) => {
+    const exit = context.enter('html');
+
+    // Use recursion for nested tag process.
+    const text = processHtml('root', node.value);
+    exit();
+
+    return text;
   },
 
   text: (node, _parent, context) => {
