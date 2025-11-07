@@ -267,7 +267,8 @@ test('HTML comment - single line', () => {
 });
 
 test('HTML comment - multi-line', () => {
-  const mrkdown = '<!--\nRelease notes\ngenerated automatically\n-->\n\n## Foo\nbar';
+  const mrkdown =
+    '<!--\nRelease notes\ngenerated automatically\n-->\n\n## Foo\nbar';
   const slack = '*Foo*\n\nbar\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
