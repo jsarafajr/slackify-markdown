@@ -21,7 +21,7 @@ npm install slackify-markdown
 This package is [ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c) only. For CommonJS, use v4.x version of the package.
 
 ```js
-import slackifyMarkdown from 'slackify-markdown';
+import { slackifyMarkdown } from 'slackify-markdown';
 
 const markdown = `
 # List of items

@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import slackifyMarkdown from '../src/index.js';
+import { slackifyMarkdown } from '../src/index.js';
 
 const zws: string = String.fromCharCode(0x200b); // zero-width-space
 
