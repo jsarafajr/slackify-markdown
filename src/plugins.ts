@@ -1,6 +1,6 @@
 import { remove } from 'unist-util-remove';
 import { visit } from 'unist-util-visit';
-import type { Root, Definition as MdastDefinition } from 'mdast';
+import type { Root, Definition as MdastDefinition, Html } from 'mdast';
 
 export interface Definition {
   title: string | null | undefined;
@@ -32,4 +32,23 @@ export const removeDefinitions =
   () =>
   (tree: Root): Root | undefined => {
     return remove(tree, { cascade: true }, 'definition');
+  };
+
+/**
+ * Removes HTML comments from the mdast tree.
+ * This prevents HTML comments from appearing in Slack output where they
+ * are not properly processed and cause rendering issues.
+ */
+export const removeHtmlComments =
+  () =>
+  (tree: Root): Root | undefined => {
+    return remove(tree, (node): node is Html => {
+      if (node.type !== 'html') {
+        return false;
+      }
+
+      const htmlNode = node as Html;
+      const trimmed = htmlNode.value.trim();
+      return trimmed.startsWith('<!--') && trimmed.endsWith('-->');
+    });
   };

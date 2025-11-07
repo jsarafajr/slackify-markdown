@@ -16,7 +16,7 @@ import type {
 } from 'mdast';
 
 import { wrap, isURL, isPotentiallyEncoded } from './utils.js';
-import type { DefinitionsMap } from './definitions.js';
+import type { DefinitionsMap } from './plugins.js';
 
 // fixes slack in-word formatting (e.g. hel*l*o)
 const zeroWidthSpace = String.fromCharCode(0x200b);
