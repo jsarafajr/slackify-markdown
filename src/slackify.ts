@@ -13,6 +13,7 @@ import type {
   Code,
   Parents,
   ListItem,
+  Blockquote,
 } from 'mdast';
 
 import { wrap, isURL, isPotentiallyEncoded } from './utils.js';
@@ -58,6 +59,28 @@ const createHandlers = (
     exit();
 
     return wrap(value, marker);
+  },
+
+  blockquote: (
+    node: Blockquote,
+    _parent: Parents | undefined,
+    state: State,
+    info: Info,
+  ): string => {
+    const exit = state.enter('blockquote');
+    const value = state.containerFlow(node, info);
+    exit();
+
+    const parts = value.split('\n\n').filter((part) => part.trim().length > 0);
+
+    const formatted = parts
+      .map((part) => {
+        const lines = part.split('\n');
+        return lines.map((line) => `> ${line}`).join('\n');
+      })
+      .join('\n\n');
+
+    return formatted;
   },
 
   strong: (

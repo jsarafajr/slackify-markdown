@@ -260,6 +260,39 @@ test('Channel mention', () => {
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
+test('Blockquote - single line', () => {
+  const mrkdown = '> This is a blockquote';
+  const slack = '> This is a blockquote\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Blockquote - multi-line', () => {
+  const mrkdown =
+    '> This is the first line\nThis is the second line\nThis is the third line';
+  const slack =
+    '> This is the first line\n> This is the second line\n> This is the third line\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Blockquote - with inline code', () => {
+  const mrkdown = '> This has `inline code` inside';
+  const slack = '> This has `inline code` inside\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Blockquote - with multiple paragraphs', () => {
+  const mrkdown = '> First paragraph\n>\n> Second paragraph';
+  const slack = '> First paragraph\n\n> Second paragraph\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('Blockquote - with formatted text', () => {
+  const mrkdown =
+    '> This has **bold**, *italic*, and a [link](http://example.com)';
+  const slack = `> This has ${zws}*bold*${zws}, ${zws}_italic_${zws}, and a <http://example.com|link>\n`;
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
 test('HTML comment - single line', () => {
   const mrkdown = '<!-- comment text -->\n\n## Heading\nContent';
   const slack = '*Heading*\n\nContent\n';
