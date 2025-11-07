@@ -1,6 +1,7 @@
-const slackifyMarkdown = require('..');
+import { test, expect } from 'vitest';
+import { slackifyMarkdown } from '../src/index.js';
 
-const zws = String.fromCharCode(0x200B); // zero-width-space
+const zws: string = String.fromCharCode(0x200b); // zero-width-space
 
 test('Simple text', () => {
   expect(slackifyMarkdown('hello world')).toBe('hello world\n');
@@ -11,7 +12,8 @@ test('Escaped text', () => {
 });
 
 test('Definitions', () => {
-  const mrkdown = 'hello\n\n[1]: http://atlassian.com\n\nworld\n\n[2]: http://atlassian.com';
+  const mrkdown =
+    'hello\n\n[1]: http://atlassian.com\n\nworld\n\n[2]: http://atlassian.com';
   const slack = 'hello\n\nworld\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
@@ -129,8 +131,10 @@ test('Link in reference style with alt and title', () => {
 });
 
 test('Link is already encoded', () => {
-  const mrkdown = '[Atlassian](https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian';
-  const slack = '<https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com|Atlassian>: /atlassian\n';
+  const mrkdown =
+    '[Atlassian](https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com): /atlassian';
+  const slack =
+    '<https://www.atlassian.com?redirect=https%3A%2F%2Fwww.asana.com|Atlassian>: /atlassian\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
@@ -153,7 +157,8 @@ test('Image with alt', () => {
 });
 
 test('Image with alt and title', () => {
-  const mrkdown = "![logo.png](https://bitbucket.org/repo/123/images/logo.png 'test')";
+  const mrkdown =
+    "![logo.png](https://bitbucket.org/repo/123/images/logo.png 'test')";
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|logo.png>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
@@ -171,31 +176,36 @@ test('Image with invalid URL', () => {
 });
 
 test('Image in reference style with alt', () => {
-  const mrkdown = '![Atlassian]\n\n[atlassian]: https://bitbucket.org/repo/123/images/logo.png';
+  const mrkdown =
+    '![Atlassian]\n\n[atlassian]: https://bitbucket.org/repo/123/images/logo.png';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|Atlassian>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image in reference style with custom label', () => {
-  const mrkdown = '![][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png';
+  const mrkdown =
+    '![][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image in reference style with alt and custom label', () => {
-  const mrkdown = '![Atlassian][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png';
+  const mrkdown =
+    '![Atlassian][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|Atlassian>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image in reference style with title', () => {
-  const mrkdown = '![][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png "Title"';
+  const mrkdown =
+    '![][test]\n\n[test]: https://bitbucket.org/repo/123/images/logo.png "Title"';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|Title>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
 
 test('Image in reference style with alt and title', () => {
-  const mrkdown = '![Atlassian]\n\n[atlassian]: https://bitbucket.org/repo/123/images/logo.png "Title"';
+  const mrkdown =
+    '![Atlassian]\n\n[atlassian]: https://bitbucket.org/repo/123/images/logo.png "Title"';
   const slack = '<https://bitbucket.org/repo/123/images/logo.png|Atlassian>\n';
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
