@@ -7,8 +7,9 @@ import remarkGfm from 'remark-gfm';
 import {
   collectDefinitions,
   removeDefinitions,
+  removeHtmlComments,
   type DefinitionsMap,
-} from './definitions.js';
+} from './plugins.js';
 import createSlackifyOptions from './slackify.js';
 
 export interface SlackifyMarkdownOptions {
@@ -31,6 +32,7 @@ export const slackifyMarkdown = (
       .use(remarkGfm)
       .use(collectDefinitions, definitions)
       .use(removeDefinitions)
+      .use(removeHtmlComments)
       .use(remarkStringify, slackifyOptions)
       .processSync(markdown)
       .toString()

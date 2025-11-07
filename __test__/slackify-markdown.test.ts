@@ -259,3 +259,15 @@ test('Channel mention', () => {
 
   expect(slackifyMarkdown(mrkdown)).toBe(slack);
 });
+
+test('HTML comment - single line', () => {
+  const mrkdown = '<!-- comment text -->\n\n## Heading\nContent';
+  const slack = '*Heading*\n\nContent\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
+
+test('HTML comment - multi-line', () => {
+  const mrkdown = '<!--\nRelease notes\ngenerated automatically\n-->\n\n## Foo\nbar';
+  const slack = '*Foo*\n\nbar\n';
+  expect(slackifyMarkdown(mrkdown)).toBe(slack);
+});
